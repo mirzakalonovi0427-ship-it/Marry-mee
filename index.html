@@ -1,1 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marry Me 💍</title>
 
+<style>
+body {
+  margin: 0;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffe6eb, #ffd6e0);
+  overflow: hidden;
+}
+
+h1 {
+  margin-top: 70px;
+  color: #ff3366;
+  font-size: 26px;
+}
+
+.name {
+  font-size: 32px;
+  color: #e60039;
+  font-weight: bold;
+}
+
+button {
+  font-size: 20px;
+  padding: 12px 30px;
+  margin: 10px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+#yes {
+  background: #4CAF50;
+  color: white;
+}
+
+#no {
+  background: #ff4d4d;
+  color: white;
+  position: absolute;
+}
+
+.big {
+  font-size: 40px;
+  color: #ff0066;
+  margin-top: 100px;
+}
+
+/* yurak animatsiya */
+.heart {
+  position: fixed;
+  bottom: -10px;
+  font-size: 20px;
+  animation: floatUp 4s linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-100vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>
+  <span class="name">Shaxzoda</span> 💖<br>
+  Will you marry me? 💍
+</h1>
+
+<button id="yes" onclick="yesClick()">YES 💖</button>
+<button id="no" ontouchstart="moveNo()" onmouseover="moveNo()">NO 😅</button>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// 🔑 BU YERNI O‘ZGARTIR
+const TOKEN = "8637643313:AAF6NO208binN603HQQB9JvqpvAGLaXRZGQ";
+const CHAT_ID = "6258625712";
+
+// musiqa (telefon uchun)
+document.body.addEventListener("click", () => {
+  document.getElementById("music").play();
+}, { once: true });
+
+// YES bosilganda
+function yesClick() {
+
+  // TELEGRAMGA XABAR
+  fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      chat_id: CHAT_ID,
+      text: "💍 SHAXZODA YES BOSDI!!! 😍🔥"
+    })
+  });
+
+  // sahifa o‘zgaradi
+  document.body.innerHTML = `
+    <div class="big">YAAAAAY 💍❤️</div>
+    <p style="font-size:22px;">Shaxzoda, you made me the happiest 🥰</p>
+  `;
+
+  setInterval(createHeart, 150);
+}
+
+// NO yozuvlari
+const noTexts = [
+  "Yo‘q dema 😭",
+  "Iltimos yana o‘yla 🥺",
+  "Shaxzodaaaa 😅",
+  "Baribir YES 😎",
+  "Qochib qutulolmaysan 😏",
+  "Yana bosib ko‘r 😜"
+];
+
+// NO qochadi + yozuv o‘zgaradi
+function moveNo() {
+  let btn = document.getElementById("no");
+
+  btn.style.left = Math.random() * 90 + "%";
+  btn.style.top = Math.random() * 90 + "%";
+
+  btn.innerText = noTexts[Math.floor(Math.random() * noTexts.length)];
+}
+
+// yuraklar
+function createHeart() {
+  let heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 4000);
+}
+</script>
+
+</body>
+</html>
